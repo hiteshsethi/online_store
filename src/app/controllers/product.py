@@ -11,7 +11,7 @@ product_controller = Blueprint("product_controller", __name__)
 
 @product_controller.route("/", methods=["GET"])
 @authenticate_route
-@swag_from('api_docs/get_products_handler.yml')
+@swag_from('api_docs/get_products_handler.yml', validation=True)
 def get_products_handler():
     is_active_filter = request.args.get('is_active')
     category_id = request.args.get('category_id')
@@ -31,7 +31,7 @@ def get_products_handler():
 
 @product_controller.route("/<int:product_id>", methods=["GET"])
 @authenticate_route
-@swag_from('api_docs/get_product_handler.yml')
+@swag_from('api_docs/get_product_handler.yml', validation=True)
 def get_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:
@@ -41,7 +41,7 @@ def get_product_handler(product_id):
 
 @product_controller.route("/add", methods=["POST"])
 @authenticate_route
-@swag_from('api_docs/add_product_handler.yml')
+@swag_from('api_docs/add_product_handler.yml', validation=True)
 def add_product_handler():
     request_data = json.loads(request.get_data())
     entity = ProductModel(
@@ -58,7 +58,7 @@ def add_product_handler():
 
 @product_controller.route("/update/<int:product_id>", methods=["PUT"])
 @authenticate_route
-@swag_from('api_docs/update_product_handler.yml')
+@swag_from('api_docs/update_product_handler.yml', validation=True)
 def update_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:
@@ -76,7 +76,7 @@ def update_product_handler(product_id):
 
 @product_controller.route("/delete/<int:product_id>", methods=["DELETE"])
 @authenticate_route
-@swag_from('api_docs/delete_product_handler.yml')
+@swag_from('api_docs/delete_product_handler.yml', validation=True)
 def delete_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:

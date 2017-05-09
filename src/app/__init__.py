@@ -7,7 +7,6 @@ from werkzeug.exceptions import default_exceptions, HTTPException
 import config
 import exceptions
 from flasgger import Swagger
-from flask_login import LoginManager
 
 
 def init():
@@ -57,8 +56,6 @@ class JSONExceptionHandler(object):
 
 
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manager.init_app(app)
 exceptionHandler = JSONExceptionHandler(app)
 # Configurations
 app.config.from_object('config.FlaskConfig')

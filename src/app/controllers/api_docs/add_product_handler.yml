@@ -17,6 +17,7 @@ parameters:
 definitions:
     Success_Response_Struct:
       type: object
+      required: ["success", "data"]
       properties:
         success:
           type: boolean
@@ -27,17 +28,18 @@ definitions:
               type
     Add_Product_Request:
       type: object
+      required: ["name", "description", "price", "category_id", "is_active"]
       properties:
-        id:
-          type: integer
-          format: int64
         name:
           type: string
+          minLength: 4
         description:
           type: string
+          minLength: 4
         price:
           type: number
           format: float
+          minimum: 1
         category_id:
           type: integer
           format: int64

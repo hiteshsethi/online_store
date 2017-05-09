@@ -17,6 +17,7 @@ parameters:
 definitions:
     Success_Response_Struct:
       type: object
+      required: ["success", "data"]
       properties:
         success:
           type: boolean

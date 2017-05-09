@@ -17,6 +17,7 @@ parameters:
 definitions:
     Success_Response_Struct:
       type: object
+      required: ["success", "data"]
       properties:
         success:
           type: boolean
@@ -24,12 +25,14 @@ definitions:
           type: object
           properties:
             message:
-              type
+              type: string
     Add_Category_Request:
       type: object
+      required: ["name", "is_active"]
       properties:
         name:
           type: string
+          minLength: 4
         is_active:
           type: boolean
 responses:

@@ -4,3 +4,6 @@ env/
 logs/*
 *.pyc
 **/.DS_Store
+.coverage
+htmlcov/
+test.db

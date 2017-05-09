@@ -7,7 +7,7 @@ user_controller = Blueprint("user_controller", __name__)
 
 
 @user_controller.route("/signup", methods=["POST"])
-@swag_from('api_docs/signup_handler.yml')
+@swag_from('api_docs/signup_handler.yml', validation=True)
 def signup_handler():
     request_data = json.loads(request.get_data())
     entity = UserModel(

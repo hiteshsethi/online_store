@@ -11,7 +11,7 @@ category_controller = Blueprint("category_controller", __name__)
 
 @category_controller.route("/", methods=["GET"])
 @authenticate_route
-@swag_from('api_docs/get_categories_handler.yml')
+@swag_from('api_docs/get_categories_handler.yml', validation=True)
 def get_categories_handler():
     is_active_filter = request.args.get('is_active')
     query = CategoryModel.query
@@ -25,7 +25,7 @@ def get_categories_handler():
 
 @category_controller.route("/<int:category_id>", methods=["GET"])
 @authenticate_route
-@swag_from('api_docs/get_category_handler.yml')
+@swag_from('api_docs/get_category_handler.yml', validation=True)
 def get_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:
@@ -35,7 +35,7 @@ def get_category_handler(category_id):
 
 @category_controller.route("/add", methods=["POST"])
 @authenticate_route
-@swag_from('api_docs/add_category_handler.yml')
+@swag_from('api_docs/add_category_handler.yml', validation=True)
 def add_category_handler():
     request_data = json.loads(request.get_data())
     entity = CategoryModel(
@@ -49,7 +49,7 @@ def add_category_handler():
 
 @category_controller.route("/update/<int:category_id>", methods=["PUT"])
 @authenticate_route
-@swag_from('api_docs/update_category_handler.yml')
+@swag_from('api_docs/update_category_handler.yml', validation=True)
 def update_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:
@@ -64,7 +64,7 @@ def update_category_handler(category_id):
 
 @category_controller.route("/delete/<int:category_id>", methods=["DELETE"])
 @authenticate_route
-@swag_from('api_docs/delete_category_handler.yml')
+@swag_from('api_docs/delete_category_handler.yml', validation=True)
 def delete_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:
