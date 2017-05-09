@@ -8,6 +8,22 @@ parameters:
       description: an authorization header
       required: true
       type: string
+   -  name: is_active
+      in: query
+      description: use to get results filtered by passed is_active value
+      required: false
+      type: integer
+      enum: [0, 1]
+   -  name: category_id
+      in: query
+      description: use to get results filtered by category_id
+      required: false
+      type: integer
+   -  name: keyword
+      in: query
+      description: use to get results filtered by %keyword% found in product name
+      required: false
+      type: string
 definitions:
   Product:
     type: object

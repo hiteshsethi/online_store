@@ -13,7 +13,11 @@ category_controller = Blueprint("category_controller", __name__)
 @authenticate_route
 @swag_from('api_docs/get_categories_handler.yml')
 def get_categories_handler():
-    entities = CategoryModel.query.order_by(CategoryModel.name)
+    is_active_filter = request.args.get('is_active')
+    query = CategoryModel.query
+    if is_active_filter is not None:
+        query = query.filter_by(is_active=is_active_filter)
+    entities = query.order_by(CategoryModel.name)
     db.session.commit()
     categories = [e.serialize() for e in entities]
     return jsonify({"success": True, "data": categories})

@@ -13,7 +13,17 @@ product_controller = Blueprint("product_controller", __name__)
 @authenticate_route
 @swag_from('api_docs/get_products_handler.yml')
 def get_products_handler():
-    entities = ProductModel.query.order_by(ProductModel.name)
+    is_active_filter = request.args.get('is_active')
+    category_id = request.args.get('category_id')
+    keyword = request.args.get('keyword')
+    query = ProductModel.query
+    if is_active_filter is not None:
+        query = query.filter_by(is_active=is_active_filter)
+    if category_id is not None:
+        query = query.filter_by(category_id=category_id)
+    if keyword is not None:
+        query = query.filter(ProductModel.name.like('%' + keyword + '%'))
+    entities = query.order_by(ProductModel.name)
     db.session.commit()
     products = [e.serialize() for e in entities]
     return jsonify({"success": True, "data": products})
