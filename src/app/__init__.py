@@ -8,6 +8,8 @@ import config
 import exceptions
 from flasgger import Swagger
 
+import flask.json
+import decimal
 
 def init():
     from controllers import register_blueprints
@@ -25,6 +27,13 @@ def init():
     for logger in loggers:
         logger.addHandler(handler)
 
+class JSONEncoder(flask.json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, decimal.Decimal):
+            # Convert decimal instances to strings.
+            return float(obj)
+        return super(JSONEncoder, self).default(obj)
 
 class JSONExceptionHandler(object):
     def __init__(self, app=None):
@@ -56,6 +65,7 @@ class JSONExceptionHandler(object):
 
 
 app = Flask(__name__)
+app.json_encoder = JSONEncoder
 exceptionHandler = JSONExceptionHandler(app)
 # Configurations
 app.config.from_object('config.FlaskConfig')
