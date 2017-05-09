@@ -1,0 +1,42 @@
+Endpoint to delete Product
+---
+tags:
+- product
+parameters:
+  - in: "path"
+    name: "product_id"
+    description: "The ID of the product to be deleted"
+    required: true
+    type: integer
+    format: "int64"
+  - name: Authorization
+    in: header
+    description: an authorization header
+    required: true
+    type: string
+definitions:
+    Success_Response_Struct:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+           type: object
+           properties:
+              message:
+                type: string
+
+responses:
+  200:
+    description: "Successfully Deleted Product"
+    schema:
+      $ref: '#/definitions/Success_Response_Struct'
+    examples:
+      success: true
+      data: {message: "successfully deleted"}
+  400:
+    description: "Bad request"
+  401:
+    description: "Un-authenticated User"
+  500:
+    description: "Internat Server Error"

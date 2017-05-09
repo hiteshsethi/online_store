@@ -1,0 +1,30 @@
+Endpoint to signup the user
+---
+tags:
+- user
+parameters:
+  - in: "body"
+    name: "body"
+    schema:
+      $ref: '#/definitions/Add_User_Request'
+    description: "User object which needs to be signed up"
+    required: true
+definitions:
+    Add_User_Request:
+      type: object
+      properties:
+        user_name:
+          type: string
+        password:
+          type: string
+
+responses:
+  200:
+    description: "User Successfully Signed Up"
+    schema:
+      $ref: '#/definitions/Success_Response_Struct'
+    examples:
+      success: true
+      data: {message: "successfully added"}
+  500:
+    description: "Internat Server Error"

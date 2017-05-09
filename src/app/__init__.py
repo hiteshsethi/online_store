@@ -6,6 +6,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions, HTTPException
 import config
 import exceptions
+from flasgger import Swagger
+from flask_login import LoginManager
 
 
 def init():
@@ -38,6 +40,8 @@ class JSONExceptionHandler(object):
                                     error),
                                 "code": error_code if error_code is not None else 500}})
         response_status_code = 400 if error_code is not None and error_code < 4001 else 500
+        if error_code and error_code < 1000:
+            response_status_code = error_code
         response.status_code = response_status_code
         # response.status_code = error.code if isinstance(error, HTTPException) else 200
         return response
@@ -53,6 +57,8 @@ class JSONExceptionHandler(object):
 
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
 exceptionHandler = JSONExceptionHandler(app)
 # Configurations
 app.config.from_object('config.FlaskConfig')
@@ -60,3 +66,4 @@ appLogger = app.logger
 
 db = SQLAlchemy(app)
 init()
+Swagger(app)  # For Documentation

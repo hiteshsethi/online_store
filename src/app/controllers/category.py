@@ -3,12 +3,15 @@ import json
 from src.app.models.category import Category as CategoryModel
 from src.app import db
 from src.app.exceptions import DataException
-from src.app.utils import get_current_timestamp
+from src.app.utils import get_current_timestamp, authenticate_route
+from flasgger.utils import swag_from
 
 category_controller = Blueprint("category_controller", __name__)
 
 
 @category_controller.route("/", methods=["GET"])
+@authenticate_route
+@swag_from('api_docs/get_categories_handler.yml')
 def get_categories_handler():
     entities = CategoryModel.query.order_by(CategoryModel.name)
     db.session.commit()
@@ -17,6 +20,8 @@ def get_categories_handler():
 
 
 @category_controller.route("/<int:category_id>", methods=["GET"])
+@authenticate_route
+@swag_from('api_docs/get_category_handler.yml')
 def get_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:
@@ -25,6 +30,8 @@ def get_category_handler(category_id):
 
 
 @category_controller.route("/add", methods=["POST"])
+@authenticate_route
+@swag_from('api_docs/add_category_handler.yml')
 def add_category_handler():
     request_data = json.loads(request.get_data())
     entity = CategoryModel(
@@ -37,6 +44,8 @@ def add_category_handler():
 
 
 @category_controller.route("/update/<int:category_id>", methods=["PUT"])
+@authenticate_route
+@swag_from('api_docs/update_category_handler.yml')
 def update_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:
@@ -50,6 +59,8 @@ def update_category_handler(category_id):
 
 
 @category_controller.route("/delete/<int:category_id>", methods=["DELETE"])
+@authenticate_route
+@swag_from('api_docs/delete_category_handler.yml')
 def delete_category_handler(category_id):
     category_entity = CategoryModel.query.filter_by(id=category_id).first()
     if not category_entity:

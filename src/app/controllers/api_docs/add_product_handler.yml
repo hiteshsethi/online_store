@@ -1,0 +1,57 @@
+Endpoint to Add Product
+---
+tags:
+- product
+parameters:
+  - in: "body"
+    name: "body"
+    schema:
+      $ref: '#/definitions/Add_Product_Request'
+    description: "Product object which needs to be added"
+    required: true
+  - name: Authorization
+    in: header
+    description: an authorization header
+    required: true
+    type: string
+definitions:
+    Success_Response_Struct:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            message:
+              type
+    Add_Product_Request:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        category_id:
+          type: integer
+          format: int64
+        is_active:
+          type: boolean
+responses:
+  200:
+    description: "Successfully Added a new Product"
+    schema:
+      $ref: '#/definitions/Success_Response_Struct'
+    examples:
+      success: true
+      data: {message: "Successfully Added"}
+  401:
+    description: "Un-authenticated User"
+  500:
+    description: "Internat Server Error"

@@ -17,3 +17,43 @@ class FlaskConfig(object):
     SQLALCHEMY_POOL_SIZE = 10
     SQLALCHEMY_POOL_RECYCLE = 3600
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    REDIS_HOST = 'localhost'
+    REDIS_PORT = 6379
+    REDIS_DB = 0
+    SWAGGER = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Online Store Backend Api's",
+            "description": """RESTful APIs for an online store which can be used to manage different products\n
+            Assumptions:
+                1) Only authentication is considered, not authorisation
+                2) "It should support addition, deletion, editing and searching a product", main focus of mine was on this only, hence signup is provided just for authentication purpose
+                3) Refering to point 2, authentication is implemented via Basic Auth.
+                4) Products are considered to be in reasonable number, and client is responsible for managing the response. Hence no pagination is provided.
+
+            \n
+            Workflow:
+                1) To add a product, first add a relevant category
+
+            """,
+            "contact": {
+                "email": "hitesh.28jan@gmail.com"
+            },
+            "version": "1.0",
+            "licence": {
+                "name": "Apache 2.0",
+                "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            }
+
+        },
+        "schemes": [
+            "http"
+        ],
+        "tags": [
+            {
+                "name": "product",
+                "description": "all api's related to product"
+            }
+        ]
+
+    }

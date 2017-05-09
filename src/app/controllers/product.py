@@ -3,12 +3,15 @@ import json
 from src.app.models.product import Product as ProductModel
 from src.app import db
 from src.app.exceptions import DataException
-from src.app.utils import get_current_timestamp
+from src.app.utils import get_current_timestamp, authenticate_route
+from flasgger.utils import swag_from
 
 product_controller = Blueprint("product_controller", __name__)
 
 
 @product_controller.route("/", methods=["GET"])
+@authenticate_route
+@swag_from('api_docs/get_products_handler.yml')
 def get_products_handler():
     entities = ProductModel.query.order_by(ProductModel.name)
     db.session.commit()
@@ -17,6 +20,8 @@ def get_products_handler():
 
 
 @product_controller.route("/<int:product_id>", methods=["GET"])
+@authenticate_route
+@swag_from('api_docs/get_product_handler.yml')
 def get_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:
@@ -25,6 +30,8 @@ def get_product_handler(product_id):
 
 
 @product_controller.route("/add", methods=["POST"])
+@authenticate_route
+@swag_from('api_docs/add_product_handler.yml')
 def add_product_handler():
     request_data = json.loads(request.get_data())
     entity = ProductModel(
@@ -40,6 +47,8 @@ def add_product_handler():
 
 
 @product_controller.route("/update/<int:product_id>", methods=["PUT"])
+@authenticate_route
+@swag_from('api_docs/update_product_handler.yml')
 def update_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:
@@ -56,6 +65,8 @@ def update_product_handler(product_id):
 
 
 @product_controller.route("/delete/<int:product_id>", methods=["DELETE"])
+@authenticate_route
+@swag_from('api_docs/delete_product_handler.yml')
 def delete_product_handler(product_id):
     product_entity = ProductModel.query.filter_by(id=product_id).first()
     if not product_entity:

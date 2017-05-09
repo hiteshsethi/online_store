@@ -1,0 +1,46 @@
+Endpoint to Add Category
+---
+tags:
+- category
+parameters:
+  - in: "body"
+    name: "body"
+    schema:
+      $ref: '#/definitions/Add_Category_Request'
+    description: "Category object which needs to be added"
+    required: true
+  - name: Authorization
+    in: header
+    description: an authorization header
+    required: true
+    type: string
+definitions:
+    Success_Response_Struct:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            message:
+              type
+    Add_Category_Request:
+      type: object
+      properties:
+        name:
+          type: string
+        is_active:
+          type: boolean
+responses:
+  200:
+    description: "Successfully Added a new Category"
+    schema:
+      $ref: '#/definitions/Success_Response_Struct'
+    examples:
+      success: true
+      data: {message: "Successfully Added"}
+  401:
+    description: "Un-authenticated User"
+  500:
+    description: "Internat Server Error"

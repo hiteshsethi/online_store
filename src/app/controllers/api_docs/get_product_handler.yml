@@ -1,0 +1,40 @@
+Endpoint to Search a Product by ID
+---
+tags:
+- product
+parameters:
+  - in: "path"
+    name: "product_id"
+    description: "The ID of the product to be searched"
+    required: true
+    type: integer
+    format: "int64"
+  - name: Authorization
+    in: header
+    description: an authorization header
+    required: true
+    type: string
+definitions:
+    Success_Response_Struct:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            $ref: '#/definitions/Product'
+responses:
+  200:
+    description: "Successfully Searched Product"
+    schema:
+      $ref: '#/definitions/Success_Response_Struct'
+    examples:
+      success: true
+      data: {name: "product1", is_active: true, id: 1, category_id: 1, description: "some random description", created_at: "2017-04-01 00:00:00", updated_at: "2017-04-01 00:00:00"}
+  400:
+    description: "If id is not present in products"
+  401:
+    description: "Un-authenticated User"
+  500:
+    description: "Internal server error"
